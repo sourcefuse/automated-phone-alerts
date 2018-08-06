@@ -1,0 +1,237 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Magento 2.2 lambda functions.
+Parameters:
+  FirstTeamMemberNumber:
+    Description: Phone Number of the first member to recieve call with + and country code. 
+    Type: String
+  SecondTeamMemberNumber:
+    Description: Phone Number of the second person to recieve call with + and country code. 
+    Type: String  
+  ThirdTeamMemberNumber:
+    Description: Phone Number of the second person to recieve call with + and country code.
+    Type: String
+  ContactFlowId1:
+    Description: Contactflow id can be found in the url bar dashboard of the respective connect flow.
+    Type: String
+  ContactFlowId2:
+    Description: Contactflow id can be found in the url bar dashboard of the respective connect flow.
+    Type: String
+  ContactFlowId3:
+    Description: Contactflow id can be found in the url bar dashboard of the respective connect flow.
+    Type: String
+  InstanceId:
+    Description: Can be obtained from connect dashboard 
+    Type: String
+  SourcePhoneNumber:
+    Description: Can be obtained from connect dashboard in phone numbers list.
+    Type: String         
+
+Resources:
+  FunctionExecutionRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+            Action:
+            - sts:AssumeRole
+        Path: /
+        Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              - connect:*
+              Resource: '*'
+        ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    
+  MainFunction:
+      Type: AWS::Lambda::Function
+      Properties:
+        Handler: index.lambda_handler
+        Runtime: python2.7
+        Timeout: '300'
+        Environment:
+            Variables:
+              FirstTeamMemberNumber: !Ref FirstTeamMemberNumber
+              ContactFlowId1: !Ref ContactFlowId1
+              InstanceId: !Ref InstanceId
+              SourcePhoneNumber: !Ref SourcePhoneNumber
+        Role: !GetAtt FunctionExecutionRole.Arn
+        Code:
+          ZipFile: |
+            import boto3
+            import time
+            import json
+            import os
+            def lambda_handler(event, context):
+                try:
+                  # Make connection to connect
+                  client = boto3.client('connect')
+                except ClientError as e:
+                  print(e) 
+                event_detail = event['Records'][0]['Sns']['Message']
+                message_detail = json.loads(event_detail)
+                FirstTeamMemberNumber = os.environ['FirstTeamMemberNumber']
+                ContactFlowId1 = os.environ['ContactFlowId1']
+                InstanceId = os.environ['InstanceId']
+                SourcePhoneNumber = os.environ['SourcePhoneNumber']
+                response = client.start_outbound_voice_contact(
+                DestinationPhoneNumber = FirstTeamMemberNumber,
+                ContactFlowId= ContactFlowId1,
+                InstanceId = InstanceId,
+                SourcePhoneNumber = SourcePhoneNumber,
+                  Attributes={
+                    'Name': message_detail
+                }
+                )
+                return 'Done'             
+    
+  PermissionForConnectToInvokeLambda: 
+    Type: "AWS::Lambda::Permission"
+    Properties: 
+        FunctionName: 
+            Ref: "MainFunction"
+        Action: "lambda:InvokeFunction"
+        Principal: "connect.amazonaws.com"
+        SourceArn: !Sub arn:aws:connect:${AWS::Region}:${AWS::AccountId}:instance/${InstanceId}
+
+  SecondFunction:
+      Type: AWS::Lambda::Function
+      Properties:
+        Handler: index.lambda_handler
+        Runtime: python2.7
+        Timeout: '300'
+        Environment:
+            Variables:
+              SecondTeamMemberNumber: !Ref SecondTeamMemberNumber
+              ContactFlowId2: !Ref ContactFlowId2
+              InstanceId: !Ref InstanceId
+              SourcePhoneNumber: !Ref SourcePhoneNumber
+        Role: !GetAtt FunctionExecutionRole.Arn
+        Code:
+          ZipFile: |
+            import boto3
+            import time
+            import json
+            import os
+            def lambda_handler(event, context):
+                try:
+                  # Make connection to connect
+                  client = boto3.client('connect')
+                except ClientError as e:
+                  print(e)
+
+                Issue = event['Details']['Parameters']['Name1']
+                SecondTeamMemberNumber = os.environ['SecondTeamMemberNumber']
+                ContactFlowId2 = os.environ['ContactFlowId2']
+                InstanceId = os.environ['InstanceId']
+                SourcePhoneNumber = os.environ['SourcePhoneNumber']
+                response = client.start_outbound_voice_contact(
+                DestinationPhoneNumber = SecondTeamMemberNumber,
+                ContactFlowId= ContactFlowId2,
+                InstanceId = InstanceId,
+                SourcePhoneNumber = SourcePhoneNumber,
+                  Attributes={
+                    'Name': Issue
+                }
+                )
+                return 'Done'             
+    
+  PermissionSecondForConnectToInvokeLambda: 
+    Type: "AWS::Lambda::Permission"
+    Properties: 
+        FunctionName: 
+            Ref: "SecondFunction"
+        Action: "lambda:InvokeFunction"
+        Principal: "connect.amazonaws.com"
+        SourceArn: !Sub arn:aws:connect:${AWS::Region}:${AWS::AccountId}:instance/${InstanceId}
+
+  ThirdFunction:
+      Type: AWS::Lambda::Function
+      Properties:
+        Handler: index.lambda_handler
+        Runtime: python2.7
+        Timeout: '300'
+        Environment:
+            Variables:
+              ThirdTeamMemberNumber: !Ref ThirdTeamMemberNumber
+              ContactFlowId3: !Ref ContactFlowId3
+              InstanceId: !Ref InstanceId
+              SourcePhoneNumber: !Ref SourcePhoneNumber
+        Role: !GetAtt FunctionExecutionRole.Arn
+        Code:
+          ZipFile: |
+            import boto3
+            import time
+            import json
+            import os
+            def lambda_handler(event, context):
+                try:
+                  # Make connection to connect
+                  client = boto3.client('connect')
+                except ClientError as e:
+                  print(e)
+
+                Issue = event['Details']['Parameters']['Name1']
+                ThirdTeamMemberNumber = os.environ['ThirdTeamMemberNumber']
+                ContactFlowId3 = os.environ['ContactFlowId3']
+                InstanceId = os.environ['InstanceId']
+                SourcePhoneNumber = os.environ['SourcePhoneNumber']
+                response = client.start_outbound_voice_contact(
+                DestinationPhoneNumber = ThirdTeamMemberNumber,
+                ContactFlowId= ContactFlowId3,
+                InstanceId = InstanceId,
+                SourcePhoneNumber = SourcePhoneNumber,
+                  Attributes={
+                    'Name': Issue
+                }
+                )
+                return 'Done'             
+    
+  PermissionThirdForConnectToInvokeLambda: 
+    Type: "AWS::Lambda::Permission"
+    Properties: 
+        FunctionName: 
+            Ref: "ThirdFunction"
+        Action: "lambda:InvokeFunction"
+        Principal: "connect.amazonaws.com"
+        SourceArn: !Sub arn:aws:connect:${AWS::Region}:${AWS::AccountId}:instance/${InstanceId}
+
+  PermissionSNSToInvokeLambda: 
+    Type: "AWS::Lambda::Permission"
+    Properties: 
+        FunctionName: 
+            Ref: "MainFunction"
+        Action: "lambda:InvokeFunction"
+        Principal: "sns.amazonaws.com"
+        SourceArn: !Ref MySNSTopic  
+
+  MySNSTopic: 
+    Type: AWS::SNS::Topic
+    Properties: 
+      Subscription: 
+        - Endpoint: 
+            Fn::GetAtt: 
+              - "MainFunction"
+              - "Arn"
+          Protocol: "lambda"
+      TopicName: "connect"
+  
+                                                                                                                                  
+
+Outputs:
+    SNSTopic: 
+        Description: Topic for alarm
+        Value: !Ref MySNSTopic
+    
