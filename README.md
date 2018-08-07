@@ -29,6 +29,18 @@ Step 7:
 Launch Solution Stack
 [![Launch Stack](https://cdn.rawgit.com/buildkite/cloudformation-launch-stack-button-svg/master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=buildkite&templateURL=https://s3.amazonaws.com/aws-connect-sf-poc/main.yaml)
 
+Step 8:
+Navigate to cloudformation console and the depoyed stack's output section, copy the arn for second function and third function.
+
+Step 9:
+Navigate to https://NAME-YOU-PROVIDED.awsapps.com/connect/contact-flows select contact-1 in the GUI double click the invoke lambda function block and paste the arn of the second function. Press save and publish.
+
+Step 10:
+Navigate to https://NAME-YOU-PROVIDED.awsapps.com/connect/contact-flows select contact-2 in the GUI double click the invoke lambda function block and paste the arn of the third function. Press save and publish.
+
+Step 11:
+Create a cloudwatch alarm for the desired metric or any custom metric and put the informative alarm description. This description is spoken by the aws connect. Send the alarm notification to "connect" SNS topic. This is done during alarm creation step itself. 
+
 ###### Solution Architecture 
 ![Optional Text](https://github.com/sourcefuse/aws-connect/blob/master/connect-arch.png)
 
