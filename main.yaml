@@ -233,6 +233,19 @@ Resources:
 
 Outputs:
     SNSTopic: 
-        Description: Topic for alarm
-        Value: !Ref MySNSTopic
+      Description: Topic for alarm
+      Value: !Ref MySNSTopic
+    
+    MainFunction:
+      Description: arn for main function 
+      Value: !Ref MainFunction
+    
+    SecondFunction:
+      Description: arn for Second function 
+      Value: !Ref SecondFunction
+    
+    ThirdFunction:
+      Description: arn for Third function 
+      Value: !Ref ThirdFunction  
+
     
