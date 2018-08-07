@@ -27,7 +27,7 @@ Navigate to https://NAME-YOU-PROVIDED.awsapps.com/connect/numbers and claim a nu
 
 Step 7:
 Launch Solution Stack
-[![Launch Stack](https://cdn.rawgit.com/buildkite/cloudformation-launch-stack-button-svg/master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=buildkite&templateURL=https://s3.amazonaws.com/aws-connect-sf-poc/main.yaml)
+[![Launch Stack](https://cdn.rawgit.com/buildkite/cloudformation-launch-stack-button-svg/master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=connect&templateURL=https://s3.amazonaws.com/aws-connect-sf-poc/main.yaml)
 
 Step 8:
 Navigate to cloudformation console and the depoyed stack's output section, copy the arn for second function and third function.
