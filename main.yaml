@@ -238,14 +238,23 @@ Outputs:
     
     MainFunction:
       Description: arn for main function 
-      Value: !Ref MainFunction
+      Value: 
+        Fn::GetAtt: 
+        - "MainFunction"
+        - "Arn"
     
     SecondFunction:
       Description: arn for Second function 
-      Value: !Ref SecondFunction
+      Value:
+        Fn::GetAtt: 
+        - "SecondFunction"
+        - "Arn"
     
     ThirdFunction:
       Description: arn for Third function 
-      Value: !Ref ThirdFunction  
+      Value:
+        Fn::GetAtt: 
+        - "ThirdFunction"
+        - "Arn"
 
     
