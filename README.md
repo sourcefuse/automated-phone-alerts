@@ -4,7 +4,7 @@
 The purpose of this solution is to provide the way to get notified via automated calls on event of any failure. One may miss the text messages or slack messages during failure events. This solution calls the three provided contacts. For example on event of failure first person will be called, incase he cannot fix the issue or may be busy he can transfer the call to second person by choosing the suitable IVR options and so on. 
 
 # How this works?
-Cloudwatch alarm is generated and notifies to the sns topic created by this template and makes the call to the team's person.
+Cloudwatch alarm is generated and notifies to the sns topic, this topic invokes a lambda function we named as "MainFunction" extracts the alarm description as this text will be converted into speech by connect. The connect-1 is started by this lambda function and based on the response the connect-2 is invoked. If team's first contact can resolve the issue connect-2 will not be invoked by a lambda function. Else if the first person press 2 the lambda is invoked and a connect-2 will be started and second person will be called. The same is follwed for the third person.  
 
 # How to setup the solution?
 Step 1:
