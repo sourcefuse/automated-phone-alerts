@@ -82,6 +82,7 @@ Resources:
                   print(e) 
                 event_detail = event['Records'][0]['Sns']['Message']
                 message_detail = json.loads(event_detail)
+                alarm_description = message_detail['AlarmDescription']
                 FirstTeamMemberNumber = os.environ['FirstTeamMemberNumber']
                 ContactFlowId1 = os.environ['ContactFlowId1']
                 InstanceId = os.environ['InstanceId']
@@ -92,7 +93,7 @@ Resources:
                 InstanceId = InstanceId,
                 SourcePhoneNumber = SourcePhoneNumber,
                   Attributes={
-                    'Name': message_detail
+                    'Name': alarm_description
                 }
                 )
                 return 'Done'             
