@@ -8,7 +8,7 @@ Cloudwatch alarm is generated and notifies to the sns topic, this topic invokes 
 
 # How to setup the solution?
 Step 1:
-Create the amazon connect instance by following the aws proivded doc: https://docs.aws.amazon.com/connect/latest/adminguide/gettingstarted.html
+Create the amazon connect instance by following the aws provided doc: https://docs.aws.amazon.com/connect/latest/adminguide/gettingstarted.html
 
 Step 2:
 Navigate to https://NAME-YOU-PROVIDED.awsapps.com/connect/contact-flows and import the connect-1 from the ConnectFlow folder, name this as connect-1 and press save. Please note the contact-flow id copy it from URL bar. Example url ends with contact-flow/25df8ad7-a765-4eebf-8200-82a92b3b342dc you need to copy numeric part "5df8ad7-a765-4eebf-8200-82a92b3b342dc"
