@@ -12,7 +12,7 @@ Cloudwatch alarm is generated and notifies the SNS topic, this topic invokes a L
 # How to setup the solution?
 Step 1:
 Create the Amazon Connect instance by following the aws provided doc: https://docs.aws.amazon.com/connect/latest/adminguide/gettingstarted.html
-Note: As and when AWS will add support for Connect to Cloudfront, we will update our script and automate this step as well. 
+Note: As and when AWS will add support for Connect to Cloudformation, we will update our script and automate this step as well. 
 
 Step 2:
 Navigate to https://NAME-YOU-PROVIDED.awsapps.com/connect/contact-flows and import the connect-1 from the ConnectFlow folder, name this as connect-1 and press save. Please note the contact-flow id copy it from URL bar. Example url ends with contact-flow/25df8ad7-a765-4eebf-8200-82a92b3b342dc you need to copy numeric part "5df8ad7-a765-4eebf-8200-82a92b3b342dc"
