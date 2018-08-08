@@ -3,6 +3,7 @@
 # Need for this solution?
 SourceFuse is an AWS certified advanced partner and provides managed services solutions to enterpirse clients in the US and the UK. A part of the managed services is a 99.99% uptime SLA. We need  to ensure that our systems are always up and running, however, we know things do happen in production - User errors, uncaught exceptions, Slow queiries, CPU over-utilization. We need to respond to these kinds of incidents immediately. Since we are a geographically dispersed team, we are able to provide 24x7 support but we cannot only rely on Slack and Email for alerts. Our DevOps team needed a solution to alert them in real time about production incidents, so we came up with a quick and effective way to have a call flow using AWS Cloudwatch alarms as triggers and Amazon Connect + Polly to make phone calls to our support engineers in case of an incident.  
 
+![Optional Text](https://github.com/sourcefuse/aws-connect/blob/master/flow.jpg)
 
 # How does this work?
 You can set up any Cloudwatch alarm to be your trigger, this could be an application or infrastructure alarm e.g. CPU Utilization > 80% for over 5 minutes. 
@@ -44,10 +45,12 @@ Navigate to https://NAME-YOU-PROVIDED.awsapps.com/connect/contact-flows select c
 Step 11:
 Create a cloudwatch alarm for the desired metric or any custom metric and put the informative alarm description. This description is spoken by the aws connect. Send the alarm notification to "connect" SNS topic. This is done during alarm creation step itself. 
 
+###### Connect Flow Diagram
+![Optional Text](https://github.com/sourcefuse/aws-connect/blob/master/connect.png)
+
 ###### Solution Architecture 
 ![Optional Text](https://github.com/sourcefuse/aws-connect/blob/master/connect-arch.png)
 
-###### Connect Flow Diagram
-![Optional Text](https://github.com/sourcefuse/aws-connect/blob/master/connect.png)
+
 
 
