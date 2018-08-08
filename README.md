@@ -1,14 +1,17 @@
-# AWS Connect Solution For Alerts
+# Build you own Pager Duty Alternative with AWS Connect and Polly
 
 # Need for this solution?
-The purpose of this solution is to provide the way to get notified via automated calls on event of any failure. One may miss the text messages or slack messages during failure events. This solution calls the three provided contacts. For example on event of failure first person will be called, incase he cannot fix the issue or may be busy he can transfer the call to second person by choosing the suitable IVR options and so on. 
+SourceFuse is an AWS certified advanced partner and provides managed services solutions to enterpirse clients in the US and the UK. A part of the managed services is a 99.99% uptime SLA. We need  to ensure that our systems are always up and running, however, we know things do happen in production - User errors, uncaught exceptions, Slow queiries, CPU over-utilization. We need to respond to these kinds of incidents immediately. Since we are a geographically dispersed team, we are able to provide 24x7 support but we cannot only rely on Slack and Email for alerts. Our DevOps team needed a solution to alert them in real time about production incidents, so we came up with a quick and effective way to have a call flow using AWS Cloudwatch alarms as triggers and Amazon Connect + Polly to make phone calls to our support engineers in case of an incident.  
 
-# How this works?
-Cloudwatch alarm is generated and notifies to the sns topic, this topic invokes a lambda function we named as "MainFunction" extracts the alarm description as this text will be converted into speech by connect. The connect-1 is started by this lambda function and based on the response the connect-2 is invoked. If team's first contact can resolve the issue connect-2 will not be invoked by a lambda function. Else if the first person press 2 the lambda is invoked and a connect-2 will be started and second person will be called. The same is follwed for the third person.  
+
+# How does this work?
+You can set up any Cloudwatch alarm to be your trigger, this could be an application or infrastructure alarm e.g. CPU Utilization > 80% for over 5 minutes. 
+Cloudwatch alarm is generated and notifies the SNS topic, this topic invokes a Lambda function that we call "MainFunction", extracts the alarm description that will be converted into speech by AWS Polly. The connect-1 is started by this Lambda function and based on the response the connect-2 is invoked. If team's first contact can resolve the issue connect-2 will not be invoked by the Lambda function. If the first person presses 2 (which means he cannot pick up the incident) the Lambda is invoked and a connect-2 will be started and second person will be called. The same is follwed for the third person.  
 
 # How to setup the solution?
 Step 1:
-Create the amazon connect instance by following the aws provided doc: https://docs.aws.amazon.com/connect/latest/adminguide/gettingstarted.html
+Create the Amazon Connect instance by following the aws provided doc: https://docs.aws.amazon.com/connect/latest/adminguide/gettingstarted.html
+Note: As and when AWS will add support for Connect to Cloudfront, we will update our script and automate this step as well. 
 
 Step 2:
 Navigate to https://NAME-YOU-PROVIDED.awsapps.com/connect/contact-flows and import the connect-1 from the ConnectFlow folder, name this as connect-1 and press save. Please note the contact-flow id copy it from URL bar. Example url ends with contact-flow/25df8ad7-a765-4eebf-8200-82a92b3b342dc you need to copy numeric part "5df8ad7-a765-4eebf-8200-82a92b3b342dc"
@@ -30,7 +33,7 @@ Launch Solution Stack
 [![Launch Stack](https://cdn.rawgit.com/buildkite/cloudformation-launch-stack-button-svg/master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=connect&templateURL=https://s3.amazonaws.com/aws-connect-sf-poc/main.yaml)
 
 Step 8:
-Navigate to cloudformation console and the depoyed stack's output section, copy the arn for second function and third function.
+Navigate to Cloudformation console and the depoyed stack's output section, copy the arn for second function and third function.
 
 Step 9:
 Navigate to https://NAME-YOU-PROVIDED.awsapps.com/connect/contact-flows select contact-1 in the GUI double click the invoke lambda function block and paste the arn of the second function. Press save and publish.
