@@ -3,6 +3,8 @@
 # Need for this solution?
 SourceFuse is an AWS certified advanced partner and provides managed services solutions to enterpirse clients in the US and the UK. A part of the managed services is a 99.99% uptime SLA. We need  to ensure that our systems are always up and running, however, we know things do happen in production - User errors, uncaught exceptions, Slow queiries, CPU over-utilization. We need to respond to these kinds of incidents immediately. Since we are a geographically dispersed team, we are able to provide 24x7 support but we cannot only rely on Slack and Email for alerts. Our DevOps team needed a solution to alert them in real time about production incidents, so we came up with a quick and effective way to have a call flow using AWS Cloudwatch alarms as triggers and Amazon Connect + Polly to make phone calls to our support engineers in case of an incident.  
 
+![Listen to a sample Phone Alert here](https://drive.google.com/file/d/1ipsZbEshyF7VSl3fDuqia-mDUCCx1BIn/view?usp=sharing)
+
 ![Optional Text](https://github.com/sourcefuse/aws-connect/blob/master/flow.jpg)
 
 # How does this work?
