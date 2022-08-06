@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Magento 2.2 lambda functions.
+Description: lambda functions.
 Parameters:
   FirstTeamMemberNumber:
     Description: Phone Number of the first member to recieve call with + and country code. 
@@ -59,7 +59,7 @@ Resources:
       Type: AWS::Lambda::Function
       Properties:
         Handler: index.lambda_handler
-        Runtime: python2.7
+        Runtime: python3.9
         Timeout: '300'
         Environment:
             Variables:
@@ -111,7 +111,7 @@ Resources:
       Type: AWS::Lambda::Function
       Properties:
         Handler: index.lambda_handler
-        Runtime: python2.7
+        Runtime: python3.9
         Timeout: '300'
         Environment:
             Variables:
@@ -162,7 +162,7 @@ Resources:
       Type: AWS::Lambda::Function
       Properties:
         Handler: index.lambda_handler
-        Runtime: python2.7
+        Runtime: python3.9
         Timeout: '300'
         Environment:
             Variables:
